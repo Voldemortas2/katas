@@ -19,3 +19,9 @@ export function findMissingLetter(array: string[]): string {
   const answer = alphabet[alphabetIndex];
   return isInputLowercase ? answer : answer.toUpperCase();
 }
+
+export function findOdd(xs: number[]): number {
+  const sortedString = xs.sort((a, b) => a - b).join(",") + ",";
+  const singleDigit = sortedString.replace(/(-?\d+,)\1/g, "");
+  return +singleDigit.replace(",", "");
+}
