@@ -25,3 +25,13 @@ export function findOdd(xs: number[]): number {
   const singleDigit = sortedString.replace(/(-?\d+,)\1/g, "");
   return +singleDigit.replace(",", "");
 }
+
+export class G964 {
+  public static digPow = (n: number, p: number) => {
+    const digits = `${n}`.split("").map((e) => +e);
+    const sum = digits.reduce((acc, cur) => acc + Math.pow(cur, p++), 0);
+    const afterDivision = sum / n;
+    if (afterDivision % 1 === 0) return afterDivision;
+    return -1;
+  };
+}

@@ -1,4 +1,4 @@
-import { descendingOrder, findMissingLetter, findOdd } from "../src/kata";
+import { descendingOrder, findMissingLetter, findOdd, G964 } from "../src/kata";
 
 test("should descend string", () => {
   const testInputs = [0, 1, 42145, 145263, 123456789];
@@ -32,4 +32,17 @@ test("should find odd number", () => {
   expect(findOdd(testInputs[3])).toBe(testExpectations[3]);
   expect(findOdd(testInputs[4])).toBe(testExpectations[4]);
   expect(findOdd(testInputs[5])).toBe(testExpectations[5]);
+});
+
+test("should play with digits", () => {
+  const testInputs = [
+    [89, 1],
+    [92, 1],
+    [695, 2],
+    [46288, 3],
+  ];
+  const testExpectations = [1, -1, 2, 51];
+  testInputs.forEach((e, i) => {
+    expect(G964.digPow(e[0], e[1])).toBe(testExpectations[i]);
+  });
 });
