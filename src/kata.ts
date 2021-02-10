@@ -34,4 +34,29 @@ export class G964 {
     if (afterDivision % 1 === 0) return afterDivision;
     return -1;
   };
+  public static gap = (
+    g: number,
+    m: number,
+    n: number
+  ): null | [number, number] => {
+    let primes = G964.findPrimes(m, n);
+    let filteredPrimes = primes.filter((n, i) => {
+      if (i === 0) return false;
+      return n - primes[i - 1] === g;
+    });
+    if (filteredPrimes.length === 0) return null;
+    return [filteredPrimes[0] - g, filteredPrimes[0]];
+  };
+  private static findPrimes = (
+    minBoundary: number,
+    maxBoundary: number
+  ): number[] => {
+    let primes = [2, 3, 5];
+    for (let j = 7; j <= maxBoundary; j += 2) {
+      if (!primes.some((n) => j % n === 0)) {
+        primes.push(j);
+      }
+    }
+    return primes.filter((n) => n >= minBoundary);
+  };
 }

@@ -1,5 +1,9 @@
 import { descendingOrder, findMissingLetter, findOdd, G964 } from "../src/kata";
 
+const expectedOrNull = (expected: any, actual: any): boolean => {
+  return actual === null || JSON.stringify(expected) === JSON.stringify(actual);
+};
+
 test("should descend string", () => {
   const testInputs = [0, 1, 42145, 145263, 123456789];
   const testExpectations = [0, 1, 54421, 654321, 987654321];
@@ -44,5 +48,25 @@ test("should play with digits", () => {
   const testExpectations = [1, -1, 2, 51];
   testInputs.forEach((e, i) => {
     expect(G964.digPow(e[0], e[1])).toBe(testExpectations[i]);
+  });
+});
+
+test("should findGaps", () => {
+  const testInputs: [number, number, number][] = [
+    [2, 5, 7],
+    [2, 5, 5],
+    [4, 130, 200],
+    [6, 10, 10],
+  ];
+  const testExpectations: ([number, number] | null)[] = [
+    [5, 7],
+    null,
+    [163, 167],
+    null,
+  ];
+  testInputs.forEach((e, i) => {
+    expect(
+      expectedOrNull(G964.gap(...testInputs[i]), testExpectations[i])
+    ).toBeTruthy();
   });
 });
