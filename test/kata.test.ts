@@ -1,4 +1,6 @@
 import { descendingOrder, findMissingLetter, findOdd, G964 } from "../src/kata";
+import { when } from "jest-when";
+import mock = jest.mock;
 
 const expectedOrNull = (expected: any, actual: any): boolean => {
   return actual === null || JSON.stringify(expected) === JSON.stringify(actual);
@@ -68,5 +70,55 @@ test("should findGaps", () => {
     expect(
       expectedOrNull(G964.gap(...testInputs[i]), testExpectations[i])
     ).toBeTruthy();
+  });
+});
+
+test("should find surrounding Fibonacci pair", () => {
+  const testInputs: number[] = [14, 36, 25];
+  const testExpectations: [number, number][] = [
+    [3, 5],
+    [5, 8],
+    [5, 8],
+  ];
+  testInputs.forEach((e, i) => {
+    expect(G964.findSurroundingFibPair(e)).toMatchObject(testExpectations[i]);
+  });
+});
+
+test("should find surrounding Fibonacci product", () => {
+  const testInputs: number[] = [714, 800, 4895, 5895];
+  const testExpectations: [number, number, boolean][] = [
+    [21, 34, true],
+    [34, 55, false],
+    [55, 89, true],
+    [89, 144, false],
+  ];
+  const mockedFindFibPairs = jest.fn();
+  when(mockedFindFibPairs).calledWith(714).mockReturnValue([21, 34]);
+  when(mockedFindFibPairs).calledWith(800).mockReturnValue([21, 34]);
+  when(mockedFindFibPairs).calledWith(4895).mockReturnValue([55, 89]);
+  when(mockedFindFibPairs).calledWith(5895).mockReturnValue([55, 89]);
+  mock("../src/kata", () => ({
+    default: class {
+      public static findSurroundingFibPair(n) {
+        mockedFindFibPairs(n);
+      }
+    },
+  }));
+  testInputs.forEach((e, i) => {
+    expect(G964.productFib(e)).toMatchObject(testExpectations[i]);
+  });
+});
+
+test("should find surrounding Fibonacci product; integrated", () => {
+  const testInputs: number[] = [714, 800, 4895, 5895];
+  const testExpectations: [number, number, boolean][] = [
+    [21, 34, true],
+    [34, 55, false],
+    [55, 89, true],
+    [89, 144, false],
+  ];
+  testInputs.forEach((e, i) => {
+    expect(G964.productFib(e)).toMatchObject(testExpectations[i]);
   });
 });

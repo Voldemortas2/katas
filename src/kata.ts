@@ -51,12 +51,30 @@ export class G964 {
     minBoundary: number,
     maxBoundary: number
   ): number[] => {
-    let primes = [2, 3, 5];
-    for (let j = 7; j <= maxBoundary; j += 2) {
-      if (!primes.some((n) => j % n === 0)) {
-        primes.push(j);
-      }
+    let sieve = [2];
+    let composites = Array.from(Array(maxBoundary - 1), (_, i) => i + 2);
+    let primes = composites.filter((e) => e % sieve[sieve.length - 1] !== 0);
+    while (sieve[sieve.length - 1] < Math.sqrt(maxBoundary)) {
+      sieve.push(primes.shift()!);
+      primes = primes.filter((e) => e % sieve[sieve.length - 1] !== 0);
     }
-    return primes.filter((n) => n >= minBoundary);
+    return [...sieve, ...primes].filter((e) => e >= minBoundary);
+  };
+
+  public static productFib = (prod: number): [number, number, boolean] => {
+    const fibPairs = G964.findSurroundingFibPair(prod);
+    if (fibPairs[0] * fibPairs[1] === prod) return [...fibPairs, true];
+    if (fibPairs[0] * fibPairs[1] > prod) return [...fibPairs, false];
+    return [fibPairs[1], fibPairs[0] + fibPairs[1], false];
+  };
+
+  public static findSurroundingFibPair = (n: number): [number, number] => {
+    const inputRoot = Math.sqrt(n);
+    let fibonacciPairs: [number, number] = [0, 1];
+    while (fibonacciPairs[1] <= inputRoot) {
+      let nextMember = fibonacciPairs[0] + fibonacciPairs[1];
+      fibonacciPairs = [fibonacciPairs[1], nextMember];
+    }
+    return fibonacciPairs;
   };
 }
