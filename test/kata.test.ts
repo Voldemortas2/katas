@@ -122,3 +122,17 @@ test("should find surrounding Fibonacci product; integrated", () => {
     expect(G964.productFib(e)).toMatchObject(testExpectations[i]);
   });
 });
+
+test("should find squares in rect", () => {
+  const testInputs: [number, number][] = [
+    [5, 3],
+    [3, 5],
+    [5, 5],
+  ];
+  const testExpectations: number[][] = [[3, 2, 1, 1], [3, 2, 1, 1], null];
+  testInputs.forEach((e, i) => {
+    expect(
+      expectedOrNull(G964.sqInRect(...e), testExpectations[i])
+    ).toBeTruthy();
+  });
+});

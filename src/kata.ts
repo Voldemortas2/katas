@@ -77,4 +77,19 @@ export class G964 {
     }
     return fibonacciPairs;
   };
+
+  public static sqInRect(l: number, w: number): number[] {
+    if (l === w) return null;
+    let shorterEdge = Math.min(l, w);
+    let longerEdge = Math.max(l, w);
+    let answer = [];
+    do {
+      answer.push(shorterEdge);
+      let lengthAfterRemove = longerEdge - shorterEdge;
+      let prevShorterEdge = shorterEdge;
+      shorterEdge = Math.min(prevShorterEdge, lengthAfterRemove);
+      longerEdge = Math.max(prevShorterEdge, lengthAfterRemove);
+    } while (shorterEdge >= 1);
+    return answer;
+  }
 }
